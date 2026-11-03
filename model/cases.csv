@@ -1,0 +1,21 @@
+case,parent,accessibility,delta_scale,eta_A,eta_B,epsilon,steps,note,set,tau_transform,delta_A,delta_B,tau_ii,decay_transform
+# ---- 基準ケース：通勤不効用 exp(−κτ)，集積の減衰 τ^(−δ)（切り捨てなし），ηA と δA を最尤推定，ηB = 0 に固定．τ_ii = 隣接ゾーンへの τ の平均 × 1/2
+base,,mass,,est,0,estimate,estimation+abar+simulation2,基準（通勤exp・減衰べき乗・δA最尤）,theta=14.317756603954573;kappa_theta=0.0007117486502132,,est:1.34,1.65,input/tau_ii.csv,log:1.0
+# ---- 構造残差ゼロの適合度（4. (11)）
+zero_base,base,,,,,zero,simulation,構造残差ゼロ・集積あり,,,,,,
+zero_noagg,base,,,0,0,zero,simulation,構造残差ゼロ・集積なし,,,,,,
+# ---- 便益の分解（5. (5)）：(b)(c) は base の結果を使う
+dec_a,base,,,0,0,estimate,estimation+abar+simulation2,(a) η=0（立地固定の値を使う）,,,,,,
+webtag,base,,,0.043,0,estimate,estimation+abar+simulation2,(d)(e) WebTAG値（ηA=0.043・δA=1.655 固定）,,,1.655,,,
+# ---- 感度分析：自ゾーン密度型（最尤推定値は η = 0 で dec_a・zero_noagg と同じモデル）
+own_d05,base,own_density,,0.05,0,estimate,estimation+abar+simulation2,自ゾーン密度・ηA=0.05（固定）,,,,,,
+zero_own_d05,own_d05,,,,,zero,simulation,自ゾーン密度・ηA=0.05・構造残差ゼロ,,,,,,
+# ---- 感度分析：集積の減衰も exp 型，ηA と δA を最尤推定
+exp_ml,,mass,,est,0,estimate,estimation+abar+simulation2,感度：減衰exp型・δA最尤,theta=14.317756603954573;kappa_theta=0.0007117486502132,,est:0.0005681,,input/tau_ii.csv,exp
+zero_exp_ml,exp_ml,,,,,zero,simulation,感度：減衰exp型・構造残差ゼロ,,,,,,
+# ---- ηB = 0 の検証：ηA, δA は base の推定値に固定し，ηB だけを動かして対数尤度を比較（推定のみ）
+chk_b0,base,,,,0,estimate,estimation,ηB検証：ηB=0（対照．baseの対数尤度を再現するはず）,,,,1.65,,
+chk_bp_d165,base,,,,0.001,estimate,estimation,ηB検証：ηB=+0.001・δB=1.65,,,,1.65,,
+chk_bp_d100,base,,,,0.001,estimate,estimation,ηB検証：ηB=+0.001・δB=1.0,,,,1.0,,
+chk_bp_d250,base,,,,0.001,estimate,estimation,ηB検証：ηB=+0.001・δB=2.5,,,,2.5,,
+chk_bm_d165,base,,,,-0.001,estimate,estimation,ηB検証：ηB=-0.001・δB=1.65,,,,1.65,,

@@ -1,0 +1,19 @@
+# Cython のビルド生成物
+build/
+*.c
+*.pyd
+*.so
+*.obj
+*.exp
+*.lib
+__pycache__/
+*.pyc
+
+# 実行結果（run_cases.py / analyze.py が作る）
+model/cases/
+model/cases_*/
+model/runs/
+model/output/
+model/analysis/
+*.bak
+*.zip
